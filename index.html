@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Kindred Wings</title>
+<meta name="description" content="The birds of San Francisco, and what they might be saying to you.">
+<meta name="theme-color" content="#1e2a4f">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Kindred Wings">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Macondo&family=Alegreya:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <svg class="emblem" viewBox="0 0 100 100" aria-hidden="true">
+      <defs><radialGradient id="eg" cx="50%" cy="45%" r="60%"><stop offset="0" stop-color="#2c3d72"/><stop offset="1" stop-color="#1e2a4f"/></radialGradient></defs>
+      <circle cx="50" cy="50" r="46" fill="url(#eg)" stroke="#e9bd4c" stroke-width="2"/>
+      <g stroke="#e9bd4c" stroke-width="1.6" fill="none">
+        <path d="M50 8 v8 M50 84 v8 M8 50 h8 M84 50 h8 M20 20 l6 6 M74 74 l6 6 M80 20 l-6 6 M26 74 l-6 6"/>
+      </g>
+      <path d="M58 26 a26 26 0 1 0 0 48 a20 20 0 1 1 0 -48z" fill="#f3d98a" stroke="#e9bd4c"/>
+      <path d="M44 44 q10 -8 22 -2 q-6 6 -2 14 q-12 2 -20 -12z" fill="#df8a7c" stroke="#f3d98a" stroke-width="1.2"/>
+      <circle cx="60" cy="46" r="1.8" fill="#1e2a4f"/>
+      <g fill="#fff6d0"><circle cx="72" cy="32" r="1.4"/><circle cx="76" cy="62" r="1.1"/><circle cx="66" cy="72" r="1.4"/></g>
+    </svg>
+    <div class="brand">
+      <h1>Kindred Wings</h1>
+      <p>The birds of San Francisco, sorted by what you can see at a glance, and what they might be saying to you.</p>
+    </div>
+  </header>
+  <svg class="vine" viewBox="0 0 1000 28" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0 16 C120 2 180 26 300 14 S480 2 560 14 S760 28 860 12 S960 6 1000 14" fill="none" stroke="#e9bd4c" stroke-width="2"/>
+    <g fill="#5f8058" stroke="#e9bd4c" stroke-width="1"><path d="M150 12 q-12 -12 -26 -8 q10 12 26 8z"/><path d="M420 8 q12 -10 26 -4 q-12 10 -26 4z"/><path d="M700 20 q-12 8 -26 2 q12 -10 26 -2z"/><path d="M900 10 q10 -10 22 -6 q-8 10 -22 6z"/></g>
+    <g fill="#f3d98a"><circle cx="300" cy="14" r="3"/><circle cx="560" cy="14" r="3"/><circle cx="860" cy="12" r="3"/></g>
+  </svg>
+
+  <nav class="tabs" role="tablist">
+    <button role="tab" aria-selected="true" data-tab="guide">Birds of SF</button>
+    <button role="tab" aria-selected="false" data-tab="beyond">Beyond birds</button>
+    <button role="tab" aria-selected="false" data-tab="log">My sightings</button>
+    <button role="tab" aria-selected="false" data-tab="settings">Settings</button>
+  </nav>
+
+  <main id="view"></main>
+</div>
+
+<dialog id="dlg" aria-labelledby="dlgTitle"><div class="sheet" id="sheet"></div></dialog>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="js/version.js"></script>
+<script src="js/data.js"></script>
+<script src="js/platform.js"></script>
+<script src="js/art.js"></script>
+<script src="js/app.js"></script>
+<script src="js/updater.js"></script>
+</body>
+</html>

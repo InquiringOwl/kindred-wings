@@ -1,0 +1,44 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check scripts and versions
+        run: |
+          for f in js/*.js sw.js; do node --check "$f"; done
+          V=$(node -e "console.log(require('./version.json').version)")
+          grep -q "const APP_VERSION=\"$V\"" js/version.js || { echo "js/version.js doesn't match version.json ($V)"; exit 1; }
+          grep -q "const VERSION=\"$V\"" sw.js || { echo "sw.js doesn't match version.json ($V)"; exit 1; }
+          echo "Deploying Kindred Wings v$V"
+
+      - name: Collect site files
+        run: |
+          mkdir _site
+          cp -R index.html manifest.webmanifest version.json sw.js css js icons _site/
+
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+      - id: deployment
+        uses: actions/deploy-pages@v4
