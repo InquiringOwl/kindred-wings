@@ -98,19 +98,34 @@ function setupAI(){
   sampleFn.json=async(p,o)=>{const{text}=await callClaude(p,o);const m=text.replace(/```json|```/g,"").match(/\{[\s\S]*\}/);if(!m)throw {code:"failed"};return JSON.parse(m[0]);};
 }
 
-/* ---- real photos from iNaturalist (openly licensed, credited) ---- */
-const INAT_KEY="kindred-wings-inat";
+/* ---- real photos from iNaturalist (openly licensed, credited) ----
+   Built-in birds and animals use the hand-checked photos in INAT (data.js).
+   Animals and birds you add are looked up by name, keeping only animal results
+   (only birds for a bird) so a name like "Lion" can't match a plant such as dandelion. */
+const INAT_KEY="kindred-wings-inat-2";
+try{localStorage.removeItem("kindred-wings-inat");}catch(e){}
 let inatCache={};try{inatCache=JSON.parse(localStorage.getItem(INAT_KEY)||"{}");}catch(e){}
 function realPhotosOn(){try{return localStorage.getItem(REAL_KEY)!=="off";}catch(e){return true;}}
-async function inatPhoto(name){
-  const c=inatCache[name];
+const ANIMAL_GROUPS=["Aves","Mammalia","Reptilia","Amphibia","Actinopterygii","Mollusca","Arachnida","Insecta","Animalia"];
+function inatFixed(id){
+  const f=typeof INAT!=="undefined"&&INAT[id];if(!f)return null;
+  const[pid,ext]=f[1].split(":");
+  return {url:`https://inaturalist-open-data.s3.amazonaws.com/photos/${pid}/medium.${ext}`,attr:f[2],link:"https://www.inaturalist.org/taxa/"+f[0],as:(typeof INAT_AS!=="undefined"&&INAT_AS[id])||""};
+}
+async function inatPhoto(id){
+  const fx=inatFixed(id);if(fx)return fx;
+  const a=findAny(id);if(!a)return null;
+  const bird=isBirdObj(a);const ck=(bird?"bird:":"animal:")+a.name.toLowerCase();
+  const c=inatCache[ck];
   if(c&&Date.now()-(c.t||0)<30*864e5)return c.url?c:null;
   try{
-    const q=name.replace(/.*\((.*)\).*/,"$1");
-    const r=await fetch("https://api.inaturalist.org/v1/taxa?per_page=1&is_active=true&q="+encodeURIComponent(q));
-    const d=await r.json();const t=d.results&&d.results[0];const ph=t&&t.default_photo;
-    const v=ph?{url:ph.medium_url,attr:ph.attribution||"",link:"https://www.inaturalist.org/taxa/"+t.id,t:Date.now()}:{url:null,t:Date.now()};
-    inatCache[name]=v;try{localStorage.setItem(INAT_KEY,JSON.stringify(inatCache));}catch(e){}
+    const q=a.name.replace(/.*\((.*)\).*/,"$1");
+    const r=await fetch("https://api.inaturalist.org/v1/taxa?per_page=10&is_active=true&q="+encodeURIComponent(q));
+    const d=await r.json();
+    const ok=t=>t.default_photo&&t.default_photo.license_code&&(bird?t.iconic_taxon_name==="Aves":ANIMAL_GROUPS.includes(t.iconic_taxon_name));
+    const t=(d.results||[]).find(ok);const ph=t&&t.default_photo;
+    const v=ph?{url:ph.medium_url,attr:ph.attribution||"",link:"https://www.inaturalist.org/taxa/"+t.id,as:t.preferred_common_name||t.name,t:Date.now()}:{url:null,t:Date.now()};
+    inatCache[ck]=v;try{localStorage.setItem(INAT_KEY,JSON.stringify(inatCache));}catch(e){}
     return v.url?v:null;
   }catch(e){return null;}
 }
@@ -119,8 +134,9 @@ async function loadInat(pc){
   const v=await inatPhoto(pc.dataset.inat);if(!v)return;
   const img=document.createElement("img");img.className="ph";img.alt="Photo from iNaturalist";img.src=v.url;img.title=v.attr;
   const tag=document.createElement("span");tag.className="phtag";tag.textContent="iNaturalist";
+  img.onerror=()=>{img.remove();tag.remove();delete pc.dataset.loaded;};   // offline or photo moved: keep the drawing
   pc.append(img,tag);
   const cr=document.getElementById("inatCredit");
-  if(cr&&pc.closest("#sheet"))cr.innerHTML=`Real photo ${esc(v.attr)}, via <a href="${esc(v.link)}" target="_blank" rel="noopener">iNaturalist</a>.`;
+  if(cr&&pc.closest("#sheet"))cr.innerHTML=`Real photo${v.as?" (a "+esc(v.as.toLowerCase())+")":""} ${esc(v.attr)}, via <a href="${esc(v.link)}" target="_blank" rel="noopener">iNaturalist</a>.`;
 }
 document.addEventListener("pointerover",e=>{const pc=e.target.closest&&e.target.closest(".pic[data-inat]");if(pc)loadInat(pc);});

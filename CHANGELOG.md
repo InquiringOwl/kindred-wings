@@ -1,3 +1,6 @@
+## v2.1.0 (10/01/26)
+- Checked real photos, Macondo text, Add a bird with cover and real photos, sightings map with pins
+
 ## v2.0.0 (10/01/26)
 - Kindred Wings moves to GitHub: installable browser app, automatic updates, real iNaturalist photos on hover, backups, optional Claude key for drawings and keywords.
 

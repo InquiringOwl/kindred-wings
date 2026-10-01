@@ -1,5 +1,5 @@
 {
-  "version": "2.0.0",
+  "version": "2.1.0",
   "date": "2026-10-01",
-  "notes": "Kindred Wings moves to GitHub: installable browser app, automatic updates, real iNaturalist photos on hover."
+  "notes": "Checked real photos, Macondo text, Add a bird with cover and real photos, sightings map with pins"
 }
