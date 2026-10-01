@@ -6,8 +6,16 @@ Read this first, then only the files the task touches. Make targeted edits (str_
 A personal naturalist + symbolism journal for Devon (GitHub: **InquiringOwl**). San Francisco birds first, then "Beyond birds" (animals met as signs: art, dreams, words), trees later. Devon believes in signs and a meaningful universe — treat that sincerely, never skeptically.
 
 - Live app: https://inquiringowl.github.io/kindred-wings/ (GitHub Pages, public repo `InquiringOwl/kindred-wings`, branch `main`)
-- Mac folder: `~/Documents/kindred-wings` (git; Devon pushes from Terminal with InquiringOwl + personal access token that has `repo` and `workflow` scopes)
+- Mac: **Ashley's MacBook Pro** (macOS user `ashleyhoffmann`, Apple Silicon). Repo folder: `/Users/ashleyhoffmann/Documents/kindred-wings` (`~/Documents/kindred-wings`). Devon pushes from Terminal (zsh) as InquiringOwl with a personal access token that has `repo` and `workflow` scopes.
+- The journal lives in the browser of whichever Mac account opens the app; moving between accounts or Macs = Settings › Save / Load a backup file.
 - Legacy: Claude artifact https://claude.ai/artifact/KrhY7qXoJs9CgPziDNvuLg (v1.x, frozen; only use it to export a backup). **The repo is the source of truth.**
+
+## Giving Devon Terminal commands
+- One command per code block line, and say "paste one line at a time, press Return after each".
+- Keep long commands on a single line (e.g. `git remote add origin https://github.com/InquiringOwl/kindred-wings.git`); pasting has split them before. If a line might wrap, suggest typing the first part and pasting only the URL.
+- Always start with `cd ~/Documents/kindred-wings` — a bare folder path gives `zsh: permission denied`.
+- Explain what success looks like (e.g. `ls` shows `index.html`, `CLAUDE.md`, `js`, `scripts`) and the one or two likely errors.
+- Token prompts: username `InquiringOwl`, password = the token (nothing shows while pasting).
 
 ## Before starting any job
 1. Check GitHub for newer commits than the Mac folder (`curl -s https://api.github.com/repos/InquiringOwl/kindred-wings/commits/main`). If Devon's folder is behind, have him `git pull` first.
