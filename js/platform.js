@@ -1,4 +1,4 @@
-/* Kindred Wings — browser platform layer: saving, photos, backups, optional Claude help.
+/* Kindred Creatures — browser platform layer: saving, photos, backups, optional Claude help.
    Everything stays in this browser: the journal in localStorage, photos in IndexedDB,
    the optional Anthropic API key in localStorage. Nothing is sent anywhere except
    iNaturalist (photo lookups) and api.anthropic.com (only if the person adds a key). */
@@ -9,11 +9,11 @@ const REAL_KEY="kindred-wings-real-photos";
 // Models used for the optional Claude features. Update here when newer models ship.
 const MODELS={quick:"claude-haiku-4-5-20251001",default:"claude-sonnet-5-5"};
 
-let state={sightings:[],meanings:{},custom:[],photos:{}};
+let state={sightings:[],meanings:{},custom:[],photos:{},notes:{}};
 let sampleFn=null, downloadsNs=null, assetsNs=null;
 const PHOTO_URLS={};   // photo id -> object URL (filled from IndexedDB at startup)
 
-const blankState=()=>({sightings:[],meanings:{},custom:[],photos:{}});
+const blankState=()=>({sightings:[],meanings:{},custom:[],photos:{},notes:{}});
 function loadLocal(){try{const s=localStorage.getItem(LSKEY);if(s){const v=JSON.parse(s);if(v&&typeof v==="object")state=Object.assign(blankState(),v);}}catch(e){}}
 function saveLocal(){try{localStorage.setItem(LSKEY,JSON.stringify(state));}catch(e){toast("Couldn't save — this browser's storage may be full");}}
 function persist(){saveLocal();}
@@ -44,14 +44,14 @@ const blobToDataURL=b=>new Promise(res=>{const r=new FileReader();r.onload=()=>r
 async function exportBackup(){
   const photoData={};
   try{const all=await idbAll();for(const[k,b]of Object.entries(all)){const d=await blobToDataURL(b);if(d)photoData[k]=d;}}catch(e){}
-  const out=Object.assign({},state,{app:"kindred-wings",version:APP_VERSION,exported:new Date().toISOString(),photoData});
+  const out=Object.assign({},state,{app:"kindred-creatures",version:APP_VERSION,exported:new Date().toISOString(),photoData});
   const d=new Date();const stamp=String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")+"-"+String(d.getFullYear()).slice(2);
-  await downloadsNs.save({filename:`kindred-wings-backup-${stamp}.json`,data:JSON.stringify(out)});
+  await downloadsNs.save({filename:`kindred-creatures-backup-${stamp}.json`,data:JSON.stringify(out)});
   toast("Backup saved");
 }
 async function importBackup(file){
-  let v;try{v=JSON.parse(await file.text());}catch(e){toast("That file isn't a Kindred Wings backup");return;}
-  if(!v||!Array.isArray(v.sightings)){toast("That file isn't a Kindred Wings backup");return;}
+  let v;try{v=JSON.parse(await file.text());}catch(e){toast("That file isn't a Kindred Creatures backup");return;}
+  if(!v||!Array.isArray(v.sightings)){toast("That file isn't a Kindred Creatures backup");return;}
   // photos carried in the backup
   const have=new Set(Object.keys(PHOTO_URLS));
   for(const[k,d]of Object.entries(v.photoData||{})){
@@ -67,6 +67,9 @@ async function importBackup(file){
     const cur=state.meanings[aid]||[];const ts=new Set(cur.map(h=>h.t));
     list.forEach(h=>{if(!ts.has(h.t))cur.push(h);});cur.sort((a,b)=>(a.t||0)-(b.t||0));state.meanings[aid]=cur;
   }
+  // your plant notes: keep what's here, add what's new
+  state.notes=state.notes||{};
+  for(const[aid,fields]of Object.entries(v.notes||{})){const cur=state.notes[aid]=state.notes[aid]||{};for(const[f,val]of Object.entries(fields||{}))if(!cur[f])cur[f]=val;}
   for(const[aid,slots]of Object.entries(v.photos||{})){
     for(const[slot,pid]of Object.entries(slots)){if(PHOTO_URLS[pid]){(state.photos[aid]=state.photos[aid]||{})[slot]=state.photos[aid][slot]||pid;}}
   }
@@ -115,14 +118,14 @@ function inatFixed(id){
 async function inatPhoto(id){
   const fx=inatFixed(id);if(fx)return fx;
   const a=findAny(id);if(!a)return null;
-  const bird=isBirdObj(a);const ck=(bird?"bird:":"animal:")+a.name.toLowerCase();
+  const bird=isBirdObj(a), plant=isPlant(a);const ck=(bird?"bird:":plant?"plant:":"animal:")+a.name.toLowerCase();
   const c=inatCache[ck];
   if(c&&Date.now()-(c.t||0)<30*864e5)return c.url?c:null;
   try{
     const q=a.name.replace(/.*\((.*)\).*/,"$1");
     const r=await fetch("https://api.inaturalist.org/v1/taxa?per_page=10&is_active=true&q="+encodeURIComponent(q));
     const d=await r.json();
-    const ok=t=>t.default_photo&&t.default_photo.license_code&&(bird?t.iconic_taxon_name==="Aves":ANIMAL_GROUPS.includes(t.iconic_taxon_name));
+    const ok=t=>t.default_photo&&t.default_photo.license_code&&(bird?t.iconic_taxon_name==="Aves":plant?t.iconic_taxon_name==="Plantae":ANIMAL_GROUPS.includes(t.iconic_taxon_name));
     const t=(d.results||[]).find(ok);const ph=t&&t.default_photo;
     const v=ph?{url:ph.medium_url,attr:ph.attribution||"",link:"https://www.inaturalist.org/taxa/"+t.id,as:t.preferred_common_name||t.name,t:Date.now()}:{url:null,t:Date.now()};
     inatCache[ck]=v;try{localStorage.setItem(INAT_KEY,JSON.stringify(inatCache));}catch(e){}

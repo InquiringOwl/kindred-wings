@@ -3,17 +3,17 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Kindred Wings</title>
-<meta name="description" content="The birds of San Francisco, and what they might be saying to you.">
+<title>Kindred Creatures</title>
+<meta name="description" content="The birds, animals, insects and plants of San Francisco and beyond — what protects them, and what they might be saying to you.">
 <meta name="theme-color" content="#1e2a4f">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="Kindred Wings">
+<meta name="apple-mobile-web-app-title" content="Kindred Creatures">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Macondo&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Macondo&family=Nunito:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -31,8 +31,8 @@
       <g fill="#fff6d0"><circle cx="72" cy="32" r="1.4"/><circle cx="76" cy="62" r="1.1"/><circle cx="66" cy="72" r="1.4"/></g>
     </svg>
     <div class="brand">
-      <h1>Kindred Wings</h1>
-      <p>The birds of San Francisco, sorted by what you can see at a glance, and what they might be saying to you.</p>
+      <h1>Kindred Creatures</h1>
+      <p>The birds, animals, insects and plants of San Francisco and beyond — who protects them, and what they might be saying to you.</p>
     </div>
   </header>
   <svg class="vine" viewBox="0 0 1000 28" preserveAspectRatio="none" aria-hidden="true">
@@ -42,9 +42,15 @@
   </svg>
 
   <nav class="tabs" role="tablist">
-    <button role="tab" aria-selected="true" data-tab="guide">Birds of SF</button>
-    <button role="tab" aria-selected="false" data-tab="beyond">Beyond birds</button>
+    <button role="tab" aria-selected="true" data-tab="birds">Birds</button>
+    <button role="tab" aria-selected="false" data-tab="animals">Animals</button>
+    <button role="tab" aria-selected="false" data-tab="insects">Insects</button>
+    <button role="tab" aria-selected="false" data-tab="trees">Trees</button>
+    <button role="tab" aria-selected="false" data-tab="flowers">Flowers</button>
+    <button role="tab" aria-selected="false" data-tab="greenery">Greenery</button>
+    <span class="tabgap" aria-hidden="true"></span>
     <button role="tab" aria-selected="false" data-tab="log">My sightings</button>
+    <button role="tab" aria-selected="false" data-tab="laws">Laws</button>
     <button role="tab" aria-selected="false" data-tab="settings">Settings</button>
   </nav>
 
@@ -56,8 +62,12 @@
 
 <script src="js/version.js"></script>
 <script src="js/data.js"></script>
+<script src="js/laws.js"></script>
+<script src="js/creatures.js"></script>
 <script src="js/platform.js"></script>
 <script src="js/art.js"></script>
+<script src="js/fauna.js"></script>
+<script src="js/flora.js"></script>
 <script src="js/map.js"></script>
 <script src="js/app.js"></script>
 <script src="js/updater.js"></script>

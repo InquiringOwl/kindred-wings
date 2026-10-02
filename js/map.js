@@ -1,4 +1,4 @@
-/* Kindred Wings — illustrated San Francisco map for My sightings: city outline, parks, neighborhoods, pins.
+/* Kindred Creatures — illustrated San Francisco map for My sightings: city outline, parks, neighborhoods, pins.
    Plain script; shares globals with the other js/ files (load order in index.html).
    Outline and neighborhoods simplified from the SF neighborhoods GeoJSON in codeforgermany/click_that_hood
    (based on SF city open data). Lake Merced, McLaren Park and the small hills are hand-placed approximations.
@@ -46,6 +46,8 @@ function pinDefs(){
     <path d="M-2 -29 q3 -4 7 -1" fill="none" stroke="#f3d98a" stroke-width=".9"/>
     <path d="M7 -31 l4 -1 l-3 3z" fill="#e9bd4c"/><circle cx="4.3" cy="-31" r="1.1" fill="#1e2a4f"/>
     <circle cx="-9" cy="-37" r="1" fill="#fff6d0"/><circle cx="9" cy="-21" r=".9" fill="#fff6d0"/></g>
+  <g id="pinLeaf"><path d="M0 0 C-3 -9 -15 -16 -15 -29 A15 15 0 1 1 15 -29 C15 -16 3 -9 0 0Z" fill="#3a5a40" stroke="#f3d98a" stroke-width="1.6"/>
+    <path d="M-7 -23 Q-8 -38 6 -40 Q9 -27 -7 -23Z" fill="#8ab85a" stroke="#f3d98a" stroke-width="1"/><path d="M-6 -24 Q0 -32 5 -38" stroke="#f3d98a" stroke-width=".8" fill="none"/></g>
   <g id="pinStar"><path d="M0 0 C-3 -9 -15 -16 -15 -29 A15 15 0 1 1 15 -29 C15 -16 3 -9 0 0Z" fill="#1d6a6c" stroke="#f3d98a" stroke-width="1.6"/>
     <path d="M0 -40 L2.6 -31.6 L11 -29 L2.6 -26.4 L0 -18 L-2.6 -26.4 L-11 -29 L-2.6 -31.6Z" fill="#f3d98a"/></g>
   </defs>`;
@@ -66,7 +68,7 @@ function sfMapSVG(pins){
   <g fill="#3f9c9a" stroke="#f3d98a" stroke-width="1">${MAP_EXTRA.water.map(d=>`<path d="${d}"/>`).join("")}</g>
   <path d="M${bx1.toFixed(0)} ${by1.toFixed(0)} L${bx2.toFixed(0)} ${by2.toFixed(0)}" stroke="#df8a7c" stroke-width="5" stroke-linecap="round"/>
   <g class="mlabels">${lbl}</g><g class="mplaces">${places}</g>
-  <g class="mpins">${pins.map(p=>{const[x,y]=mapXY(p.lat,p.lng);return `<use href="#${p.bird?"pinBird":"pinStar"}" class="mpin${p.sel?" sel":""}" data-pin="${esc(p.id)}" data-x="${x.toFixed(1)}" data-y="${y.toFixed(1)}" transform="translate(${x.toFixed(1)} ${y.toFixed(1)})"><title>${esc(p.title)}</title></use>`;}).join("")}</g>
+  <g class="mpins">${pins.map(p=>{const[x,y]=mapXY(p.lat,p.lng);return `<use href="#${p.bird?"pinBird":p.plant?"pinLeaf":"pinStar"}" class="mpin${p.sel?" sel":""}" data-pin="${esc(p.id)}" data-x="${x.toFixed(1)}" data-y="${y.toFixed(1)}" transform="translate(${x.toFixed(1)} ${y.toFixed(1)})"><title>${esc(p.title)}</title></use>`;}).join("")}</g>
   </svg>`;
 }
 /* Pan and zoom by changing the viewBox; pins keep the same on-screen size. */

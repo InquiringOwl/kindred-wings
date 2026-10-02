@@ -1,8 +1,8 @@
-/* Kindred Wings service worker: network-first with an offline fallback.
+/* Kindred Creatures service worker: network-first with an offline fallback.
    VERSION is written by scripts/release.sh; changing it makes browsers install the new worker. */
-const VERSION="2.1.0";
+const VERSION="3.0.0";
 const CACHE="kw-"+VERSION;
-const CORE=["./","index.html","css/style.css","js/version.js","js/data.js","js/platform.js","js/art.js","js/map.js","js/app.js","js/updater.js","manifest.webmanifest","icons/icon-192.png","icons/icon-512.png","icons/apple-touch-icon.png"];
+const CORE=["./","index.html","css/style.css","js/version.js","js/data.js","js/laws.js","js/creatures.js","js/platform.js","js/art.js","js/fauna.js","js/flora.js","js/map.js","js/app.js","js/updater.js","manifest.webmanifest","icons/icon-192.png","icons/icon-512.png","icons/apple-touch-icon.png"];
 self.addEventListener("install",e=>{e.waitUntil(caches.open(CACHE).then(c=>c.addAll(CORE)).then(()=>self.skipWaiting()));});
 self.addEventListener("activate",e=>{e.waitUntil(caches.keys().then(ks=>Promise.all(ks.filter(k=>k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim()));});
 self.addEventListener("fetch",e=>{

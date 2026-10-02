@@ -1,3 +1,6 @@
+## v3.0.0 (10/02/26)
+- Kindred Creatures: 12 sections, F/S/C protections and Laws tab, confirmable meanings and plant uses, new font
+
 ## v2.1.0 (10/01/26)
 - Checked real photos, Macondo text, Add a bird with cover and real photos, sightings map with pins
 

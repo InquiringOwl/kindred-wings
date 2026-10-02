@@ -1,6 +1,6 @@
-# Kindred Wings
+# Kindred Creatures
 
-The birds of San Francisco — sorted by size and color, with male, female and young drawings, when they're in town, what they might mean (after Ted Andrews, paraphrased), your own meanings over time, and a sightings journal. Plus "Beyond birds" for the animals that find you in other ways.
+The birds, animals, insects, trees, flowers and greenery of San Francisco and beyond — each with a drawing and a checked real photo, what it might mean (after Ted Andrews, paraphrased), your own meanings over time, herbal uses and harvest notes for local plants, and who protects it under federal, California and San Francisco law. Plus a sightings journal with a map. (The repo and web address keep the old name, kindred-wings, so links and installed copies keep working.)
 
 **Open the app:** https://inquiringowl.github.io/kindred-wings/
 

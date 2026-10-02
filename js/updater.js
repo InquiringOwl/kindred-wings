@@ -1,4 +1,4 @@
-/* Kindred Wings — auto-updater. GitHub Pages serves the latest push; the service worker
+/* Kindred Creatures — auto-updater. GitHub Pages serves the latest push; the service worker
    (sw.js) keeps an offline copy. This file checks version.json and offers a one-click update. */
 function isNewer(a,b){const pa=String(a).split(".").map(Number),pb=String(b).split(".").map(Number);for(let i=0;i<3;i++){if((pa[i]||0)!==(pb[i]||0))return (pa[i]||0)>(pb[i]||0);}return false;}
 let updateShown=false;

@@ -1,4 +1,4 @@
-/* Kindred Wings — field-guide data: birds, young plumages, beyond-bird animals, sizes. Plain script; shares globals with the other js/ files (load order in index.html). */
+/* Kindred Creatures — field-guide data: birds, young plumages, beyond-bird animals, sizes. Plain script; shares globals with the other js/ files (load order in index.html). */
 /* ---------------- Data ---------------- */
 const MONTHS=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
 const SIZES=[
@@ -14,7 +14,8 @@ const COLORS=[
 const SRC={
  andrews:"Ted Andrews writes about this bird in Animal Speak. Paraphrased here from his themes, not quoted — worth checking against your copy.",
  family:"Andrews writes about this bird's family or a close cousin; this carries his reading over to the San Francisco species.",
- folk:"As far as I know Andrews doesn't cover this one, so this reading comes from the bird's own behavior and wider folklore."};
+ folk:"As far as I know Andrews doesn't cover this one, so this reading comes from its own behavior and wider folklore.",
+ lore:"From plant lore — the Victorian language of flowers, folk tradition and the plant's own nature. Andrews' Nature-Speak has a plant dictionary worth checking against your copy."};
 
 // Shorthand palette colors
 const K="#1c1c22",W="#f4f2ea",G="#8a8f96",LG="#c9ccd0",BR="#7a5436",LB="#b08a62",RD="#c8322f",OR="#e0782a",YL="#f2c92c",OL="#8a9a3c",GN="#3f8f4e",BL="#2f5fb3",RU="#b5552a";

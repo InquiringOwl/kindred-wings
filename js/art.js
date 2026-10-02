@@ -1,4 +1,4 @@
-/* Kindred Wings — drawing: bird medallions (birdSVG) and Southwestern tile art (ART, animalArt, drawAnimal). Plain script; shares globals with the other js/ files (load order in index.html). */
+/* Kindred Creatures — drawing: bird medallions (birdSVG) and Southwestern tile art (ART, animalArt, drawAnimal). Plain script; shares globals with the other js/ files (load order in index.html). */
 /* ---------------- Bird drawing ---------------- */
 let svgN=0;
 function starsBG(id,moon){
@@ -22,7 +22,8 @@ const GEO={
  gull:{B:[90,96,46,21,-6],H:[140,66,16]},
  pelican:{B:[86,100,46,24,-6],H:[132,56,14]},
  cormorant:{B:[88,100,44,17,-18],H:[140,54,12]},
- quail:{B:[92,102,44,32,-6],H:[134,68,17]}
+ quail:{B:[92,102,44,32,-6],H:[134,68,17]},
+ penguin:{B:[98,102,28,40,0],H:[106,54,16]}
 };
 function birdSVG(bird,sex,opts={}){
   const id="b"+(++svgN);
@@ -34,6 +35,10 @@ function birdSVG(bird,sex,opts={}){
   if(bird.headBig)hr+=3;
   const S='stroke="#f3d98a" stroke-width="1.3" stroke-linejoin="round"';
   let out=[starsBG(id,monthsOn(bird.months).every(Boolean))];
+  // peacock train (behind everything)
+  if(P.train){let s="";for(let k=0;k<11;k++){const an=Math.PI*(1.05+k*0.09);const x=bx-6+Math.cos(an)*70, y=by-6+Math.sin(an)*62;s+=`<path d="M${bx-10} ${by} L${x.toFixed(1)} ${y.toFixed(1)}" stroke="#3f8f4e" stroke-width="3"/><ellipse cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" rx="8" ry="10" fill="#3f8f4e" ${S}/><ellipse cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" rx="4.5" ry="5.5" fill="#2f5fb3"/><circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="2.2" fill="#f2c92c"/>`;}out.push(s);}
+  // quetzal streamers
+  if(bird.streamers&&sex!=="f"&&sex!=="y") out.push(`<path d="M${bx-rx*.7} ${by+ry*.3} Q${bx-rx*1.6} ${by+ry*1.4} ${bx-rx*2.3} ${by+ry*2.3}" stroke="${P.tail}" stroke-width="5" fill="none" stroke-linecap="round"/><path d="M${bx-rx*.7} ${by+ry*.4} Q${bx-rx*1.4} ${by+ry*1.7} ${bx-rx*1.9} ${by+ry*2.6}" stroke="${P.tail}" stroke-width="4" fill="none" stroke-linecap="round"/>`);
   // tail
   const tl=bird.tail||(shape==="dove"?50:38);
   if(["song","dove"].includes(shape)){
@@ -63,6 +68,7 @@ function birdSVG(bird,sex,opts={}){
   if(shape==="nightheron"){out.push(leg(84,120,26,P.leg),leg(98,118,26,P.leg));}
   if(["gull","pelican"].includes(shape)){out.push(leg(88,114,16,P.leg),leg(100,113,16,P.leg));}
   if(shape==="cormorant"){out.push(leg(92,114,12,"#2a2a2a"));}
+  if(shape==="penguin"){out.push(`<path d="M86 140 h12 M100 140 h12" stroke="${P.leg==="#6b5a4a"?"#2a2a2a":P.leg}" stroke-width="5" stroke-linecap="round"/>`);}
   // water
   if(["duck","goose"].includes(shape)) out.push(`<path d="M20 ${by+16} q15 -6 30 0 t30 0 t30 0 t30 0 t30 0 t30 0 V160 H20Z" fill="#3f9c9a" fill-opacity=".45"/><path d="M20 ${by+16} q15 -6 30 0 t30 0 t30 0 t30 0 t30 0 t30 0" fill="none" stroke="#f3d98a" stroke-opacity=".6"/>`);
   // hummer wing (behind)
@@ -90,7 +96,10 @@ function birdSVG(bird,sex,opts={}){
   // spiral ornament
   out.push(`<path d="M${bx-rx*.35} ${by+ry*.1} m-4 0 a4 4 0 1 1 4 4 a7 7 0 1 1 -7 -7" fill="none" stroke="#f3d98a" stroke-opacity=".6" stroke-width="1.1"/>`);
   // wing
-  if(shape!=="hummer"&&shape!=="owl"){
+  if(shape==="penguin"){
+    out.push(`<path d="M${bx+rx*.55} ${by-ry*.4} Q${bx+rx*1.3} ${by+ry*.2} ${bx+rx*.9} ${by+ry*.7} Q${bx+rx*.6} ${by+ry*.2} ${bx+rx*.5} ${by-ry*.1}Z" fill="${P.wing}" ${S}/>`);
+  }
+  if(shape!=="hummer"&&shape!=="owl"&&shape!=="penguin"){
     const wx=bx, wy=by;
     const wlong=["gull","pelican"].includes(shape)?1.25:1;
     out.push(`<g transform="rotate(${rot} ${bx} ${by})"><path d="M${wx-rx*.5} ${wy-ry*.4} Q${wx+rx*.15} ${wy-ry*.95} ${wx+rx*.6} ${wy-ry*.2} Q${wx+rx*.2} ${wy+ry*.7} ${wx-rx*.75*wlong} ${wy+ry*.5} Q${wx-rx*1.05*wlong} ${wy+ry*.1} ${wx-rx*.5} ${wy-ry*.4}Z" fill="${P.wing}" ${S}/>`);
@@ -157,7 +166,12 @@ function birdSVG(bird,sex,opts={}){
       dagger:`<path d="M${bx0-2} ${by0-3.5} L${bx0+(shape==="wader"?34:22)} ${by0+2} L${bx0-2} ${by0+4}Z"/>`,
       flat:`<path d="M${bx0-3} ${by0-4} Q${bx0+18} ${by0-3} ${bx0+17} ${by0+5} Q${bx0+8} ${by0+8} ${bx0-3} ${by0+5}Z"/>`,
       gull:`<path d="M${bx0-2} ${by0-4} L${bx0+18} ${by0-1} q2 3 -1 5 L${bx0-2} ${by0+4}Z"/><circle cx="${bx0+13}" cy="${by0+3}" r="2" fill="#d8243a"/>`,
-      pouch:`<path d="M${bx0-3} ${by0-4} L${bx0+44} ${by0+4} L${bx0+40} ${by0+9} Q${bx0+18} ${by0+20} ${bx0-3} ${by0+6}Z"/>`
+      pouch:`<path d="M${bx0-3} ${by0-4} L${bx0+44} ${by0+4} L${bx0+40} ${by0+9} Q${bx0+18} ${by0+20} ${bx0-3} ${by0+6}Z"/>`,
+      flamingo:`<path d="M${bx0-2} ${by0-4} L${bx0+12} ${by0-3} L${bx0+16} ${by0+12} L${bx0+11} ${by0+12} L${bx0+8} ${by0+3} L${bx0-2} ${by0+4}Z"/><path d="M${bx0+12} ${by0+3} L${bx0+16} ${by0+12} L${bx0+11} ${by0+12}Z" fill="#1c1c22"/>`,
+      curve:`<path d="M${bx0-2} ${by0-3} Q${bx0+24} ${by0-2} ${bx0+34} ${by0+20} Q${bx0+20} ${by0+6} ${bx0-2} ${by0+3}Z"/>`,
+      toucan:`<path d="M${bx0-4} ${by0-10} Q${bx0+30} ${by0-14} ${bx0+44} ${by0+4} Q${bx0+30} ${by0+12} ${bx0-4} ${by0+8}Z"/><path d="M${bx0+30} ${by0-8} Q${bx0+40} ${by0-4} ${bx0+44} ${by0+4} Q${bx0+36} ${by0+8} ${bx0+30} ${by0+8}Z" fill="#d8322f"/><path d="M${bx0+8} ${by0-8} L${bx0+18} ${by0+8}" stroke="#e0782a" stroke-width="4"/><path d="M${bx0+18} ${by0-9} L${bx0+26} ${by0+8}" stroke="#2f5fb3" stroke-width="3"/>`,
+      parrot:`<path d="M${bx0-4} ${by0-8} Q${bx0+16} ${by0-12} ${bx0+16} ${by0+4} Q${bx0+14} ${by0+14} ${bx0+8} ${by0+12} Q${bx0+10} ${by0+4} ${bx0+4} ${by0+2} L${bx0-4} ${by0+8}Z"/>`,
+      puffin:`<path d="M${bx0-3} ${by0-9} L${bx0+14} ${by0} L${bx0-3} ${by0+9}Z"/><path d="M${bx0+2} ${by0-6} L${bx0+2} ${by0+6}" stroke="#f2c92c" stroke-width="2"/><path d="M${bx0-3} ${by0-9} L${bx0-3} ${by0+9}" stroke="#4a5aa8" stroke-width="3"/>`
     };
     out.push(`<g fill="${c}" stroke="#f3d98a" stroke-width="1" stroke-linejoin="round">${beaks[bk]||beaks.cone}</g>`);
     if(P.face&&shape==="cormorant") out.push(`<circle cx="${bx0-2}" cy="${by0+2}" r="4" fill="${P.face}"/>`);

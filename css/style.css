@@ -8,8 +8,8 @@
   --line:rgba(31,51,36,.18);
   --shadow:0 10px 30px -14px rgba(20,40,25,.55);
   --display:"Macondo","Papyrus","Georgia",serif;
-  /* Body text uses Macondo too, so everything shares the title's storybook hand. */
-  --body:"Macondo","Georgia","Times New Roman",serif;
+  /* Titles in Macondo; everything else in a clear, rounded sans-serif. */
+  --body:"Nunito","Avenir Next","Segoe UI",system-ui,sans-serif;
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
@@ -31,7 +31,7 @@
 html{scroll-padding-top:env(safe-area-inset-top,0px)}
 *,*::before,*::after{box-sizing:inherit}
 body{
-  margin:0;color:var(--ink);font-family:var(--body);font-size:18px;line-height:1.6;letter-spacing:.15px;
+  margin:0;color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.55;
   background-color:var(--bg);
   background-image:
     radial-gradient(ellipse at 15% -10%, rgba(255,240,190,.35), transparent 55%),
@@ -55,7 +55,7 @@ header.top{position:relative;padding:26px 0 10px;display:flex;align-items:center
 nav.tabs{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0 18px}
 nav.tabs button{
   border:1.5px solid var(--line);background:transparent;padding:8px 18px;border-radius:999px;
-  font-family:var(--display);font-size:19px;color:var(--ink)}
+  font-family:var(--display);font-size:18px;color:var(--ink)}
 nav.tabs button[aria-selected="true"]{background:var(--night);color:var(--gold-soft);border-color:var(--night)}
 
 /* Filters */
@@ -132,7 +132,7 @@ dialog::backdrop{background:rgba(18,26,48,.62);backdrop-filter:blur(3px)}
 .why[hidden]{display:none}
 
 .row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
-.btn{border:none;border-radius:999px;padding:9px 20px;background:var(--night);color:var(--gold-soft);font-family:var(--display);font-size:18px}
+.btn{border:none;border-radius:999px;padding:9px 20px;background:var(--night);color:var(--gold-soft);font-family:var(--body);font-weight:600;font-size:16px}
 .btn.alt{background:transparent;color:var(--ink);border:1.5px solid var(--line)}
 .btn.rose{background:var(--rose);color:#2b100b}
 .btn:disabled{opacity:.5;cursor:default}
@@ -146,7 +146,7 @@ dialog::backdrop{background:rgba(18,26,48,.62);backdrop-filter:blur(3px)}
 .hist li{border-left:3px solid var(--rose);padding:2px 0 2px 12px}
 .hist .when{font-family:var(--display);font-size:16px}
 .hist .orig{border-left-color:var(--gold)}
-.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--night);color:var(--gold-soft);padding:10px 22px;border-radius:999px;font-family:var(--display);font-size:18px;box-shadow:var(--shadow);z-index:50;opacity:0;pointer-events:none;transition:opacity .25s}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--night);color:var(--gold-soft);padding:10px 22px;border-radius:999px;font-family:var(--body);font-weight:600;font-size:16px;box-shadow:var(--shadow);z-index:50;opacity:0;pointer-events:none;transition:opacity .25s}
 .toast.on{opacity:1}
 
 /* Log */
@@ -229,3 +229,70 @@ dialog::backdrop{background:rgba(18,26,48,.62);backdrop-filter:blur(3px)}
 .pinbtn.has::before{background:var(--rose)}
 .entry.sel{outline:2.5px solid var(--gold);outline-offset:1px}
 @media (max-width:560px){.mapzoom{margin-left:0}.mapcard{padding:12px}}
+
+/* ---------- Kindred Creatures ---------- */
+nav.tabs{gap:6px 6px;align-items:center}
+nav.tabs .tabgap{flex:0 0 10px}
+nav.tabs button{padding:6px 15px}
+.segs{display:flex;gap:6px;flex-wrap:wrap;margin:0 0 8px}
+.seg{border:1.5px solid var(--night);background:transparent;color:var(--ink);border-radius:14px 14px 4px 4px;padding:6px 16px;font-family:var(--display);font-size:20px}
+.seg small{font-family:var(--body);font-size:13px;opacity:.7;margin-left:4px}
+.seg[aria-selected="true"]{background:var(--night);color:var(--gold-soft)}
+.secintro{margin:0 0 14px;color:var(--ink-soft);max-width:70ch;font-size:16px}
+.chip{font-family:var(--body)}
+.chip.prot{display:inline-flex;align-items:center;gap:4px}
+.card .kw{font-style:italic}
+.card .kw.mine{font-style:normal}
+/* F / S / C badges */
+.badges{display:flex;gap:4px;justify-content:center;margin-top:-2px}
+.sheet-head .badges{justify-content:flex-start;margin-top:8px}
+.lb,.lbm{position:relative;display:inline-grid;place-items:center;width:22px;height:22px;border-radius:50%;font:700 12px/1 var(--body);color:#1e2a4f;border:1.5px solid #f3d98a;cursor:help;flex:none}
+.lbm{width:18px;height:18px;font-size:10.5px;cursor:inherit}
+.lb.big{width:30px;height:30px;font-size:15px}
+.lb-F{background:#9ab8e8}.lb-S{background:#f3d98a}.lb-C{background:#df8a7c}
+.ltip{display:none;position:absolute;z-index:30;left:50%;bottom:calc(100% + 8px);transform:translateX(-50%);width:min(300px,78vw);background:var(--night);color:#f4ecd2;border:1px solid var(--gold);border-radius:14px;padding:10px 12px;text-align:left;font:400 13.5px/1.4 var(--body);box-shadow:var(--shadow);cursor:default}
+.ltip b{display:block;font-family:var(--display);font-weight:400;font-size:16px;color:var(--gold-soft);margin-bottom:4px}
+.ltip .lt{display:block;margin-top:6px}.ltip i{font-style:normal;font-weight:700;color:var(--gold-soft)}.ltip em{display:block;color:#f3c0b6;font-style:italic;margin-top:2px}
+.lb:hover .ltip,.lb:focus .ltip,.lb.open .ltip{display:block}
+.sheet-head .ltip{left:0;transform:none;top:calc(100% + 8px);bottom:auto}
+/* suggested (italic) vs. yours (plain, with a gold rule) */
+.key.pred{font-style:italic}
+.why.pred{font-style:italic}
+.why.conf{border-left:4px solid var(--gold);font-style:normal}
+.utext{padding:8px 12px;border-radius:12px;background:var(--paper-2);margin:4px 0 6px}
+.utext.pred{font-style:italic;color:var(--ink-soft)}
+.utext.conf{border-left:4px solid var(--gold);color:var(--ink)}
+.utext .src{display:block;font-size:13px;color:var(--ink-soft);margin-top:4px;font-style:italic}
+.use{margin-bottom:12px}.ulabel{font-weight:700;font-size:15px}
+.btn.small{padding:4px 14px;font-size:14px}
+.use .panel textarea{width:100%;min-height:70px;border:1.5px solid var(--line);background:var(--paper);border-radius:12px;padding:8px}
+.caution{background:#f8e0d8;color:#5a1f14;border-left:4px solid var(--rose);border-radius:10px;padding:8px 12px;font-size:15px;margin:6px 0}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .caution{background:#4a2a26;color:#f8e0d8}}
+.fig.solo{max-width:380px}
+/* protections in the detail sheet */
+.plv{display:grid;grid-template-columns:34px 1fr;gap:10px;align-items:start;margin-bottom:10px}
+.plvname{font-family:var(--display);font-size:18px}
+details.law{background:var(--paper-2);border-radius:12px;padding:8px 12px;margin:6px 0}
+details.law summary{cursor:pointer;list-style:none}
+details.law summary::-webkit-details-marker{display:none}
+details.law .lname{font-weight:700}
+details.law .lshort{display:block;font-size:15px;color:var(--ink-soft)}
+details.law .lnote{display:block;font-size:14.5px;color:var(--rose);font-style:italic;margin-top:2px}
+details.law.info{opacity:.85}
+details.law .lcount{display:inline-block;background:var(--night);color:var(--gold-soft);border-radius:999px;font-size:12px;padding:0 8px;margin-left:4px}
+details.law p{margin:6px 0;font-size:15px}
+.cite{font-size:13px;color:var(--ink-soft);font-style:italic}
+.cite a{color:inherit}
+.who{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+/* Laws tab */
+.lawintro{max-width:80ch}
+.lawintro .lb{vertical-align:middle}
+.lawlv{background:var(--paper);border-radius:24px;padding:14px 18px;box-shadow:var(--shadow);margin-bottom:18px;max-width:900px}
+.lawlv h3{font-family:var(--display);font-weight:400;font-size:26px;margin:0 0 6px;display:flex;align-items:center;gap:10px}
+.lawlv h4{font-family:var(--display);font-weight:400;font-size:19px;margin:14px 0 4px;color:var(--ink-soft)}
+.overall{border-left:3px solid var(--gold);padding:2px 0 2px 12px;margin:10px 0}
+.overall .otitle{font-weight:700}.overall .ofor{font-weight:400;font-size:13px;color:var(--ink-soft);margin-left:6px}
+.overall p{margin:4px 0;font-size:15.5px}
+.sheet-head .sub i{font-style:italic}
+@media (max-width:560px){nav.tabs button{font-size:16px;padding:5px 12px}nav.tabs .tabgap{display:none}.seg{font-size:17px}}
+.card{position:relative}.card:hover,.card:focus-within{z-index:6}
